@@ -1,5 +1,6 @@
 package com.example.service
 
+import com.example.models.REGISTRATION_ENUM
 import com.example.models.User
 import com.example.repositorty.UserRepository
 import java.util.*
@@ -9,12 +10,11 @@ class UserService(
 ) {
     fun findAllUser() = userRepository.findAllUser()
     fun findById(id: String) = userRepository.findById(UUID.fromString(id))
-    fun findByUsername(username: String) = userRepository.findByUsername(username)
-    fun save(user: User): User?{
-        val foundUser = findByUsername(user.username)
+    fun findByPhoneNumber(username: String) = userRepository.findByPhoneNumber(username)
+    fun save(user: User): Pair<REGISTRATION_ENUM, User>  {
+        val foundUser = findByPhoneNumber(user.phoneNumber)
         return if (foundUser == null){
-            userRepository.save(user)
-            user
-        }else null
+            if (userRepository.save(user)) Pair(REGISTRATION_ENUM.SUCCESS, user) else Pair(REGISTRATION_ENUM.FAILED, user)
+        }else Pair(REGISTRATION_ENUM.EXISTS, user)
     }
 }

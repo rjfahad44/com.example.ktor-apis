@@ -3,10 +3,11 @@ package com.example.service
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.example.models.User
 import com.example.routing.request.LoginRequest
 import io.ktor.server.application.*
 import io.ktor.server.auth.jwt.*
-import java.util.Date
+import java.util.*
 
 class JwtService(
     private val application: Application,
@@ -27,22 +28,22 @@ class JwtService(
             .build()
 
     fun createJwtToken(loginRequest: LoginRequest): String?{
-        val foundUser = userService.findByUsername(loginRequest.username)
+        val foundUser = userService.findByPhoneNumber(loginRequest.phoneNumber)
 
         return if (foundUser != null && foundUser.password == loginRequest.password){
             JWT
                 .create()
                 .withAudience(audience)
                 .withIssuer(issuer)
-                .withClaim("username", foundUser.username)
+                .withClaim("phoneNumber", foundUser.phoneNumber)
                 .withExpiresAt(Date(System.currentTimeMillis() + 3_600_000))
                 .sign(Algorithm.HMAC512(secret))
         }else null
     }
 
     fun customValidator(credential: JWTCredential): JWTPrincipal? {
-        val username = extractUsername(credential)
-        val foundUser = username?.let (userService::findByUsername)
+        val user = extractData(credential)
+        val foundUser = user.phoneNumber?.let (userService::findByPhoneNumber)
 
         return foundUser?.let {
             if (audienceMatches(credential)){
@@ -55,8 +56,11 @@ class JwtService(
         return credential.payload.audience.contains(audience)
     }
 
-    private fun extractUsername(credential: JWTCredential): String? {
-        return credential.payload.getClaim("username").asString()
+    private fun extractData(credential: JWTCredential): User {
+        return User(id = UUID.randomUUID(),
+            phoneNumber = credential.payload.getClaim("phoneNumber").asString(),
+            password = credential.payload.getClaim("password").asString(),
+            )
     }
 
     private fun getConfigProperty(path: String): String{

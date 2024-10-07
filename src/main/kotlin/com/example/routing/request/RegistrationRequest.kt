@@ -3,7 +3,7 @@ package com.example.routing.request
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserRequest(
-    val username: String,
+data class RegistrationRequest(
+    val phoneNumber: String,
     val password: String
 )

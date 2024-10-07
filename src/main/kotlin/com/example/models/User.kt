@@ -8,6 +8,6 @@ import java.util.UUID
 data class User(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val username: String,
+    val phoneNumber: String,
     val password: String,
 )

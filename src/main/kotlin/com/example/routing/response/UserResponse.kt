@@ -8,5 +8,5 @@ import java.util.UUID
 data class UserResponse(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val username: String
+    val phoneNumber: String
 )

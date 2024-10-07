@@ -1,1 +1,1 @@
-rootProject.name = "com.example.ktor-apis"
+rootProject.name = "ktor-apis"

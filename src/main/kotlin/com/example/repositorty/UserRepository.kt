@@ -11,7 +11,7 @@ class UserRepository {
 
     fun findById(id: UUID): User? = users.firstOrNull { it.id == id }
 
-    fun findByUsername(username: String): User? = users.firstOrNull { it.username == username }
+    fun findByPhoneNumber(phoneNumber: String): User? = users.firstOrNull { it.phoneNumber == phoneNumber }
 
     fun save(user: User): Boolean = users.add(user)
 
