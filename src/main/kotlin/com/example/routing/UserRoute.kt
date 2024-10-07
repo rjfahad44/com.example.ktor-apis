@@ -2,6 +2,7 @@ package com.example.routing
 
 import com.example.models.User
 import com.example.routing.request.UserRequest
+import com.example.routing.response.ApiResponse
 import com.example.routing.response.UserResponse
 import com.example.service.UserService
 import io.ktor.http.*
@@ -45,6 +46,15 @@ private fun User.toResponse(): UserResponse {
         username = this.username
     )
 }
+
+//private fun User.toResponse(): ApiResponse<List<User>>{
+//    return ApiResponse(
+//        statusCode = HttpStatusCode.OK.value,
+//        message = "SUCCESS",
+//        data = listOf(this)
+//    )
+//}
+
 
 private fun UserRequest.toModel(): User {
     return User(
