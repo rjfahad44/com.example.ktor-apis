@@ -16,7 +16,7 @@ fun Application.configureRouting(
         }
 
         route("/api/user"){
-            userRoute(userService)
+            userRoute(userService, jwtService)
         }
     }
 }
