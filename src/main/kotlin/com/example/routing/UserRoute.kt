@@ -19,7 +19,6 @@ import java.util.*
 fun Route.userRoute(userService: UserService, jwtService: JwtService){
     post("/registration") {
         val registrationRequest = call.receive<RegistrationRequest>()
-
         /*call.response.header(
             name = "id",
             value = createUser.id.toString()
